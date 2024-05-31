@@ -1,7 +1,7 @@
 """
  * 星抖短剧
  * 注册地址： https://www.xingdouduanju.com/pages/register/index.html?invite_code=160213
- * 定时一小时一次即可
+ * 定时2或者4小时一次即可
  * 环境变量 XD_TOKEN , 抓取 header 里面的 Authorization 值，去掉前面的 Bearer, 多账户使用&隔开, 青龙环境直接新建变量即可，本地环境直接填入下方ck中
 """
 
@@ -13,6 +13,10 @@ import json
 import time
 
 ck = ""  # 本地环境ck
+
+########买猪配置#########
+mz = False  # True为自动购买，False为手动购买
+########-------#########
 
 class XD:
     def __init__(self, cki):
@@ -26,12 +30,14 @@ class XD:
         self.ye = None
         self.id_list = []
         self.hd = {
-            'User-Agent': "okhttp/3.14.9",
+            'User-Agent': "okhttp/4.9.2",
             'Connection': "Keep-Alive",
             'Accept-Encoding': "gzip",
-            'Content-Type': "application/json",
-            'Authorization': "Bearer " + self.ck,
-            'X-Version-Code': "106"
+            'Authorization': "Bearer " + self.ck,'X-Version-Code': "124",
+            'X-Platform': "android",
+            'X-System': "14",
+            'X-Brand': "Redmi",
+            'Content-Type': "application/json; charset=utf-8"
         }
     @staticmethod
     def generate_random_hex_string(length):
@@ -57,8 +63,8 @@ class XD:
 
     # 签名
     def sign(self, ids, nonce, timestamp):
-        data = f"{timestamp}&{ids}&{nonce}&kjKjb8WRmfb77U6IMqsVtIuIFQCvab4JBqABNqSp"
-        data1 = f"{timestamp}&{nonce}&kjKjb8WRmfb77U6IMqsVtIuIFQCvab4JBqABNqSp"
+        data = f"{timestamp}&{ids}&{nonce}&kjKjb8WRmfb77U6IMqsVtIuIFQCvab4JBqABNqSp&true"
+        data1 = f"{timestamp}&{nonce}&kjKjb8WRmfb77U6IMqsVtIuIFQCvab4JBqABNqSp&true"
         data2 = f"{ids}&{timestamp}&{nonce}&kjKjb8WRmfb77U6IMqsVtIuIFQCvab4JBqABNqSp"
         sign = hashlib.md5(data.encode()).hexdigest()
         sign1 = hashlib.md5(data1.encode()).hexdigest()
@@ -116,62 +122,21 @@ class XD:
             if name == "分享邀请码" and completed_count < times:
                 print("===开始执行分享邀请码===")
                 self.fxyqm()
-            elif name == "观看短视频1次" and completed_count < times:
+            elif name == "每日观看广告（赚金币）" and completed_count < times:
+                print("===开始执行每日广告===")
+                self.mrgg()
+            elif name == "逛逛短视频（赚金币）" and completed_count < times:
                 print("===开始执行看短剧===")
                 self.kdj()
-            elif name == "主动观看广告1次" and completed_count < times:
-                print("===开始执行看广告===")
-                self.kgg()
-            elif name == "偷取好友金块1次" and completed_count < times:
+            elif name == "赚现金红包（激励金）" and completed_count < times:
+                print("===开始执行天降激励金===")
+                self.flj()
+            elif name == "偷好友金块（赚金币）" and completed_count < times:
                 print("===开始执行偷金条===")
                 self.tjt()
         print(f"[{self.name}]可执行任务已全部完成，跳过执行")
 
-    # 看短剧
-    def kdj(self):
-        y = "5"
-        b = "短剧"
-        for v in range(20):
-            a = self.post(y, v, b)
-            if not a:
-                break
-            time.sleep(2)
-
-    # 看广告
-    def kgg(self):
-        y = "6"
-        b = "广告"
-        for v in range(3):
-            a = self.post(y, v, b)
-            if not a:
-                break
-            time.sleep(2)
-
-    # 通用请求
-    def post(self, ids, v, b):
-        nonce = self.random()
-        timestamp = str(int(time.time() * 1000))
-        sign, sign1, sign2 = self.sign(ids, nonce, timestamp)
-        url = "https://api.xingdouduanju.com/api/gold_tasks/" + ids + "/complete"
-        payload = {
-            "timestamp": timestamp,
-            "nonce": nonce,
-            "id": ids,
-            "sign": sign
-        }
-        try:
-            r = requests.post(url, json=payload, headers=self.hd).json()
-            if r["success"]:
-                print(f"[{self.name}]第{v+1}次看{b}成功，获得==> {r['data']['reward']}")
-                return True
-            else:
-                print(f"[{self.name}]第{v+1}次看{b}失败，原因==> {r['message']}")
-                return False
-        except Exception as e:
-            print(e)
-            return False
-
-    # 分享赚金币
+    # 分享邀请码
     def fxyqm(self):
         url = "https://api.xingdouduanju.com/api/gold_tasks/1/complete"
         ids = "1"
@@ -192,9 +157,113 @@ class XD:
                 print(f"[{self.name}]分享邀请码失败==> {r['message']}")
         except Exception as e:
             print(e)
+    # 看短剧
+    def kdj(self):
+        y = "5"
+        b = "短剧"
+        for v in range(6):
+            a = self.post(y, v, b)
+            if not a:
+                break
+            time.sleep(2)
+
+    # 天降激励金
+    def flj(self):
+        y = "11"
+        b = "天降激励金"
+        for v in range(21):
+            a = self.flj1(y, v, b)
+            if not a:
+                break
+            time.sleep(2)
+
+    # 看广告
+    def mrgg(self):
+        y = "6"
+        b = "每日观看广告"
+        for v in range(7):
+            a = self.post(y, v, b)
+            if not a:
+                break
+            time.sleep(2)
+
+    # 通用请求
+    def post(self, ids, v, b):
+        nonce = self.random()
+        timestamp = str(int(time.time() * 1000))
+        sign, sign1, sign2 = self.sign(ids, nonce, timestamp)
+        url = "https://api.xingdouduanju.com/api/gold_tasks/" + ids + "/complete"
+        payload = {
+            "timestamp": timestamp,
+            "nonce": nonce,
+            "id": ids,
+            "done": True,
+            "sign": sign
+        }
+        try:
+            r = requests.post(url, json=payload, headers=self.hd).json()
+            if r["success"]:
+                print(f"[{self.name}]第{v+1}次看{b}成功，获得==> {r['data']['reward']}")
+                return True
+            else:
+                print(f"[{self.name}]第{v+1}次看{b}失败，原因==> {r['message']}")
+                return False
+        except Exception as e:
+            print(e)
+            return False
+
+    # 天降激励金
+    def flj1(self, ids, v, b):
+        nonce = self.random()
+        timestamp = str(int(time.time() * 1000))
+        data = f"{ids}&{timestamp}&{nonce}&kjKjb8WRmfb77U6IMqsVtIuIFQCvab4JBqABNqSp&true"
+        sign = hashlib.md5(data.encode()).hexdigest()
+        url = "https://api.xingdouduanju.com/api/gold_tasks/" + ids + "/complete"
+        payload = {
+            "timestamp": timestamp,
+            "nonce": nonce,
+            "id": ids,
+            "done": True,
+            "sign": sign
+        }
+        try:
+            r = requests.post(url, json=payload, headers=self.hd).json()
+            if r["success"]:
+                print(f"[{self.name}]第{v+1}次看{b}成功，获得==> {r['data']['reward']}")
+                return True
+            else:
+                print(f"[{self.name}]第{v+1}次看{b}失败，原因==> {r['message']}")
+                return False
+        except Exception as e:
+            print(e)
+            return False
 
     # 收取金条
     def jtlq(self):
+        nonce = self.random()
+        timestamp = str(int(time.time() * 1000))
+        sign, sign1, sign2 = self.sign(None, nonce, timestamp)
+        url = "https://api.xingdouduanju.com/api/gold_pigs/collect_all_bullion"
+        payload = json.dumps({
+            "timestamp": timestamp,
+            "nonce": nonce,
+            "hasWatchAd": True,
+            "sign": sign1
+        })
+
+        r = requests.post(url, data=payload, headers=self.hd).json()
+        if r["success"]:
+            print(f"[{self.name}]收取金条成功，获得==> {r['message']}")
+        else:
+            print(f"[{self.name}]收取金条失败，原因==> {r['message']}")
+            if r["message"] == "今日广告解锁次数已用完。":
+                print(f"[{self.name}]启用备用方式收取金条")
+                self.jtlq1()
+            else:
+                print(f"[{self.name}]收取金条失败，原因==> {r['message']}")
+
+    # 收取金条备用
+    def jtlq1(self):
         url = "https://api.xingdouduanju.com/api/gold_pigs/info"
         try:
             r = requests.get(url, headers=self.hd).json()
@@ -203,8 +272,9 @@ class XD:
                 for ids in id_list:
                     nonce = self.random()
                     timestamp = str(int(time.time() * 1000))
-                    sign, sign1, sign2 = self.sign(ids, nonce, timestamp)
-                    url = f"https://api.xingdouduanju.com/api/gold_pigs/{ids}/collect_bullion"
+                    da = f"{timestamp}&{ids}&{nonce}&kjKjb8WRmfb77U6IMqsVtIuIFQCvab4JBqABNqSp"
+                    sign = hashlib.md5(da.encode()).hexdigest()
+                    collect_url = f"https://api.xingdouduanju.com/api/gold_pigs/{ids}/collect_bullion"
                     payload = json.dumps({
                         "timestamp": timestamp,
                         "nonce": nonce,
@@ -212,51 +282,76 @@ class XD:
                         "sign": sign
                     })
                     try:
-                        r1 = requests.post(url, data=payload, headers=self.hd).json()
+                        r1 = requests.post(collect_url, data=payload, headers=self.hd).json()
                         if r1["success"]:
-                            print(f"[{self.name}]领取金条成功，获得==> {r1['data']['collectedAmount']}")
+                            print(f"[{self.name}]第{id_list.index(ids) + 1}次收取金条成功，获得==> {r1['data']['expiredAmount']}")
                         else:
-                            print(f"[{self.name}]领取金条失败==> {r1['message']}")
+                            print(f"[{self.name}]第{id_list.index(ids) + 1}次收取金条失败==> {r1['message']}")
                     except Exception as e:
                         print(e)
                     time.sleep(2)
+                if not id_list:
+                    print(f"[{self.name}]领取金条失败,id列表为空==> {r['data']['waitCollectGoldPigs']}")
+                    return
+                self.jtlq()
             else:
                 print(f"[{self.name}]获取id失败,可能已经领取完毕")
         except Exception as e:
             print(e)
 
+
     # 偷金条
     def tjt(self):
-        url = "https://api.xingdouduanju.com/api/user/friends?level=1&cursor=&keyword="
+        url = "https://api.xingdouduanju.com/api/user/friends"
         try:
-            r = requests.get(url, headers=self.hd).json()
-            if r["success"]:
-                id_list = [item['id'] for item in r['data']]
-                if len(id_list) == 0:
-                    print(f"[{self.name}]没有好友,跳过偷金条")
-                    return
-                for ids in id_list:
-                    nonce = self.random()
-                    timestamp = str(int(time.time() * 1000))
-                    sign, sign1, sign2 = self.sign(ids, nonce, timestamp)
-                    url = "https://api.xingdouduanju.com/api/user_friend_bullions/collect"
-                    payload = json.dumps({
-                        "timestamp": timestamp,
-                        "nonce": nonce,
-                        "friendId": ids,
-                        "sign": sign
-                    })
-                    try:
-                        r1 = requests.post(url, data=payload, headers=self.hd).json()
-                        if r1["success"]:
-                            print(f"[{self.name}]偷取金条成功，获得==> {r1['data']['amount']}")
+            print("正在获取可偷金条的好友列表，请骚等一会儿")
+            total_ids = []
+            for level in ["1", "2"]:
+                params = {
+                    'level': level,
+                    'cursor': "",
+                    'keyword': ""
+                }
+                while True:
+                    r = requests.get(url, params=params, headers=self.hd).json()
+                    if r["success"]:
+                        if not r["data"]:
+                            print(f"[{self.name}]获取好友列表失败，原因==> {r['data']}")
+                            return
                         else:
-                            print(f"[{self.name}]偷取金条失败==> {r1['message']}")
-                    except Exception as e:
-                        print(e)
-                    time.sleep(2)
-            else:
-                print(f"[{self.name}]获取id失败,可能已经领取完毕")
+                            ids = [entry['id'] for entry in r['data'] if entry['canCollectBullion']]
+                            total_ids.extend(ids)
+                            cursor_info = r.get("cursor")
+                            if cursor_info and cursor_info.get("after"):
+                                params['cursor'] = cursor_info["after"]
+                            else:
+                                break
+                            time.sleep(1)
+                    else:
+                        print(f"[{self.name}]获取好友列表失败，原因==> {r}")
+                        return
+            print(f"[{self.name}]获取列表成功，共获取到{len(total_ids)}个好友可偷金条")
+            for ids in total_ids:
+                nonce = self.random()
+                timestamp = str(int(time.time() * 1000))
+                data = f"{timestamp}&{ids}&{nonce}&kjKjb8WRmfb77U6IMqsVtIuIFQCvab4JBqABNqSp"
+                sign = hashlib.md5(data.encode()).hexdigest()
+                url = "https://api.xingdouduanju.com/api/user_friend_bullions/collect"
+                payload = json.dumps({
+                    "timestamp": timestamp,
+                    "nonce": nonce,
+                    "friendId": ids,
+                    "sign": sign
+                })
+                try:
+                    r1 = requests.post(url, data=payload, headers=self.hd).json()
+                    if r1["success"]:
+                        print(f"[{self.name}]偷取金条成功，获得==> {r1['data']['amount']}")
+                    else:
+                        print(f"[{self.name}]偷取金条失败==> {r1['message']}")
+                except Exception as e:
+                    print(e)
+                time.sleep(2)
         except Exception as e:
             print(e)
 
@@ -273,11 +368,12 @@ class XD:
                         url = "https://api.xingdouduanju.com/api/gold_pigs/gold_exchange"
                         nonce = self.random()
                         timestamp = str(int(time.time() * 1000))
-                        sign, sign1, sign2 = self.sign(None, nonce, timestamp)
+                        data = f"{timestamp}&{nonce}&kjKjb8WRmfb77U6IMqsVtIuIFQCvab4JBqABNqSp"
+                        sign = hashlib.md5(data.encode()).hexdigest()
                         payload = json.dumps({
                             "nonce": nonce,
                             "timestamp": timestamp,
-                            "sign": sign1
+                            "sign": sign
                         })
                         try:
                             r1 = requests.post(url, data=payload, headers=self.hd).json()
@@ -330,11 +426,12 @@ class XD:
                 url = "https://api.xingdouduanju.com/api/user_bonus_bullions/collect"
                 nonce = self.random()
                 timestamp = str(int(time.time() * 1000))
-                sign, sign1, sign2 = self.sign(None, nonce, timestamp)
+                data = f"{timestamp}&{nonce}&kjKjb8WRmfb77U6IMqsVtIuIFQCvab4JBqABNqSp"
+                sign = hashlib.md5(data.encode()).hexdigest()
                 payload = json.dumps({
                     "timestamp": timestamp,
                     "nonce": nonce,
-                    "sign": sign1
+                    "sign": sign
                 })
                 try:
                     r1 = requests.post(url, data=payload, headers=self.hd).json()
@@ -349,10 +446,31 @@ class XD:
         except Exception as e:
             print(e)
 
+    # 等级分红奖励
+    def djfh(self):
+        url = "https://api.xingdouduanju.com/api/user_team_dividends/receive"
+        nonce = self.random()
+        timestamp = str(int(time.time() * 1000))
+        data = f"{timestamp}&{nonce}&kjKjb8WRmfb77U6IMqsVtIuIFQCvab4JBqABNqSp"
+        sign = hashlib.md5(data.encode()).hexdigest()
+        payload = json.dumps({
+            "timestamp": timestamp,
+            "nonce": nonce,
+            "sign": sign
+        })
+        try:
+            r1 = requests.post(url, data=payload, headers=self.hd).json()
+            if r1["success"]:
+                print(f"[{self.name}]领取等级奖励成功==> {r1['data']['amount']}")
+            else:
+                print(f"[{self.name}]领取等级奖励失败==> {r1['message']}")
+        except Exception as e:
+            print(e)
+
     def start(self):
         if self.login():
             print("===开始查看任务完成情况===")
-            self.task_list()
+            self.jtlq()
             time.sleep(2)
             print("===开始收取金条===")
             self.jtlq()
@@ -360,8 +478,14 @@ class XD:
             print("===开始领取团队奖励==")
             self.tdjl()
             time.sleep(2)
-            print("===开始买金猪===")
-            self.mjz()
+            print("===开始领等级分红奖励==")
+            self.djfh()
+            time.sleep(2)
+            if mz:
+                print("===开始买金猪===")
+                self.mjz()
+            else:
+                print(f"[{self.name}]已设置不自动买猪，跳过执行")
 
 if __name__ == '__main__':
     if 'XD_TOKEN' in os.environ:
