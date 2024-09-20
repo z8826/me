@@ -241,7 +241,7 @@ class _0x520715 extends _0x49bd9d {
         this.deviceId = _0x1366a8.randomPattern("xxxxxxxx-xxxx-xxxx");
         this.jika_black = false;
         this.anniversary_black = false;
-        this.dragonBoat_black = false;
+        this.dragonBoat_black = true;
         this.memberDay_black = false;
         this.memberDay_redPacket_drewToday = false;
         this.memberDay_redPacket_map = {};
