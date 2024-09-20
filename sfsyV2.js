@@ -2999,10 +2999,6 @@ class _0x520715 extends _0x49bd9d {
         await this.dragonBoat2024_coinStatus_checkDraw();
     }
     async dragonBoat2024_task(_0xbf0e9e = {}) {
-        let _0xfc310e = Date.now();
-        -- if (_0xfc310e < 1716516000000 || _0xfc310e > 1718190000000) {
-        --     return;
-        -- }
         await this.dragonBoat2024_weeklyGiftStatus();
         if (this.dragonBoat_black) {
             return;
