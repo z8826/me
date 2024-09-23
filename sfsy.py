@@ -1644,9 +1644,7 @@ class RUN:
         return True
 
     def sendMsg(self, help=False):
-        if self.send_UID:
-            push_res = CHERWIN_TOOLS.wxpusher(self.send_UID, one_msg, APP_NAME, help)
-            print(push_res)
+        send(APP_NAME, send_msg)
 
 
 def get_quarter_end_date():
@@ -1729,9 +1727,9 @@ export {ENV_NAME}='url'多账号#分割
         print("调用拉菲变量")
         tokens = re.split("@|#|\n", os.environ.get("sfsyUrl"))
     else:
-        tokens = ['']
+        tokens = ['https://mcs-mimp-web.sf-express.com/mcs-mimp/share/weChat/shareGiftReceiveRedirect?source=CX&scene=6&unionId=FwB6jwHioo37ropTn3dxoxm9KIHJ42JWPxaCwUdEdoM%3D&openId=1nrNudh%2FkYIqTYN1DZZ9XShWyXEMTYE%2FeCQ6sJqcxDA%3D&memId=yDMopAtI3M7l831HUKl22vVDthBCEpXkKuEnV%2F3aIaADdjSr%2F6X0WoiZtgGzs7sG&memNo=6tB15T6k0ZvyroDMcHJm6RJrUVotZjuyuMOgn3%2FFTkMDdjSr%2F6X0WoiZtgGzs7sG&mobile=IU1ZZysJW8TWTdaomXiBZA%3D%3D&bizCode=619%40%40R0VaTmhYNnZHWHNKZTJLejlPV3hpeDhveGVTMXBzbGhXU0JtR00ySVowQT0%3D']
         print(f'无{ENV_NAME}变量')
-        exit()
+        # exit()
     local_version = '2024.06.02'
 
     # print(tokens)
