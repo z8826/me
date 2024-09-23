@@ -1276,7 +1276,7 @@ class RUN:
             url = 'https://mcs-mimp-web.sf-express.com/mcs-mimp/commonNoLoginPost/~memberNonactivity~dragonBoat2024IndexService~index'
 
             response = self.do_request(url, payload)
-            print(response)
+            # print(response)
             if response.get('success'):
                 obj = response.get('obj', [{}])
                 acEndTime = obj.get('acEndTime', '')
@@ -1734,7 +1734,7 @@ export {ENV_NAME}='url'多账号#分割
         exit()
     local_version = '2024.06.02'
 
-    print(tokens)
+    # print(tokens)
     if len(tokens) > 0:
         print(f"\n>>>>>>>>>>共获取到{len(tokens)}个账号<<<<<<<<<<")
         for index, infos in enumerate(tokens):
