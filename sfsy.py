@@ -52,7 +52,7 @@ def Log(cont=''):
 
 
 # 1905 #0945 #6332 #6615 2559
-inviteId = ['D241BA5A0462416A93899C6FCE4A4E4E','7456B3B14804493CA2E4F10FBB962DFD']
+inviteId = ['D241BA5A0462416A93899C6FCE4A4E4E', '7456B3B14804493CA2E4F10FBB962DFD']
 
 
 class RUN:
@@ -177,10 +177,14 @@ class RUN:
             gift_list = response.get('obj', {}).get('giftList', [])
             if response.get('obj', {}).get('extraGiftList', []):
                 gift_list.extend(response['obj']['extraGiftList'])
-            gift_names = ', '.join([gift['giftName'] for gift in gift_list])
-            receive_status = response.get('obj', {}).get('receiveStatus')
-            status_message = '领取成功' if receive_status == 1 else '已领取过'
-            Log(f'超值福利签到[{status_message}]: {gift_names}')
+            if gift_list != None:
+                gift_names = ', '.join([gift['giftName'] for gift in gift_list])
+                receive_status = response.get('obj', {}).get('receiveStatus')
+                status_message = '领取成功' if receive_status == 1 else '已领取过'
+                Log(f'超值福利签到[{status_message}]: {gift_names}')
+            else:
+                error_message = response.get('obj', {})
+                print(f'超值福利签到失败: {error_message}')
         else:
             error_message = response.get('errorMessage') or json.dumps(response) or '无返回'
             print(f'超值福利签到失败: {error_message}')
@@ -1640,7 +1644,6 @@ class RUN:
             # self.DRAGONBOAT_2024_Game_init()
             self.DRAGONBOAT_2024_coinStatus(True)
 
-        self.sendMsg()
         return True
 
     def sendMsg(self, help=False):
@@ -1727,7 +1730,8 @@ export {ENV_NAME}='url'多账号#分割
         print("调用拉菲变量")
         tokens = re.split("@|#|\n", os.environ.get("sfsyUrl"))
     else:
-        tokens = ['https://mcs-mimp-web.sf-express.com/mcs-mimp/share/weChat/shareGiftReceiveRedirect?source=CX&scene=6&unionId=FwB6jwHioo37ropTn3dxoxm9KIHJ42JWPxaCwUdEdoM%3D&openId=1nrNudh%2FkYIqTYN1DZZ9XShWyXEMTYE%2FeCQ6sJqcxDA%3D&memId=yDMopAtI3M7l831HUKl22vVDthBCEpXkKuEnV%2F3aIaADdjSr%2F6X0WoiZtgGzs7sG&memNo=6tB15T6k0ZvyroDMcHJm6RJrUVotZjuyuMOgn3%2FFTkMDdjSr%2F6X0WoiZtgGzs7sG&mobile=IU1ZZysJW8TWTdaomXiBZA%3D%3D&bizCode=619%40%40R0VaTmhYNnZHWHNKZTJLejlPV3hpeDhveGVTMXBzbGhXU0JtR00ySVowQT0%3D']
+        tokens = [
+            'https://mcs-mimp-web.sf-express.com/mcs-mimp/share/weChat/shareGiftReceiveRedirect?source=CX&scene=6&unionId=FwB6jwHioo37ropTn3dxoxm9KIHJ42JWPxaCwUdEdoM%3D&openId=1nrNudh%2FkYIqTYN1DZZ9XShWyXEMTYE%2FeCQ6sJqcxDA%3D&memId=yDMopAtI3M7l831HUKl22vVDthBCEpXkKuEnV%2F3aIaADdjSr%2F6X0WoiZtgGzs7sG&memNo=6tB15T6k0ZvyroDMcHJm6RJrUVotZjuyuMOgn3%2FFTkMDdjSr%2F6X0WoiZtgGzs7sG&mobile=IU1ZZysJW8TWTdaomXiBZA%3D%3D&bizCode=619%40%40R0VaTmhYNnZHWHNKZTJLejlPV3hpeDhveGVTMXBzbGhXU0JtR00ySVowQT0%3D']
         print(f'无{ENV_NAME}变量')
         # exit()
     local_version = '2024.06.02'
