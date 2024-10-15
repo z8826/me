@@ -14,7 +14,8 @@ import os
 import random
 import time
 import re
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
+from dateutil.relativedelta import relativedelta
 from sys import exit
 import requests
 import urllib3
@@ -1619,6 +1620,7 @@ class RUN:
         # #######################################
         # # # 获取当前季度结束日期
         activity_end_date = get_quarter_end_date()
+        print(activity_end_date)
         if is_activity_end_date(activity_end_date):
             Log("今天采蜜活动截止兑换，请及时进行兑换")
             send('顺丰速运挂机通知', "今天采蜜活动截止兑换，请及时进行兑换")
@@ -1651,17 +1653,9 @@ class RUN:
 
 
 def get_quarter_end_date():
-    current_date = datetime.now()
-    current_month = current_date.month
-    current_year = current_date.year
-
-    # 计算下个季度的第一天
-    next_quarter_first_day = datetime(current_year, ((current_month - 1) // 3 + 1) * 3 + 1, 1)
-
-    # 计算当前季度的最后一天
-    quarter_end_date = next_quarter_first_day - timedelta(days=1)
-
-    return quarter_end_date.strftime("%Y-%m-%d")
+    today = datetime.today()
+    quarter_end_day = date(today.year, today.month - (today.month - 1) % 3 + 2, 1) + relativedelta(months=1,days=-1)
+    return quarter_end_day.isoformat()
 
 
 def is_activity_end_date(end_date):
