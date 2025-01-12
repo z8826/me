@@ -29,7 +29,7 @@ if os.path.isfile('DEV_ENV.py'):
     IS_DEV = True
 
 
-#from notify import send
+from notify import send
 
 send_msg = ''
 one_msg = ''
@@ -1651,7 +1651,7 @@ class RUN:
         return True
 
     def sendMsg(self, help=False):
-          #send("顺丰-通知", one_msg)
+          send("顺丰-通知", one_msg)
           pass
 
     def YEAEND_2024_wealthStatus(self):
