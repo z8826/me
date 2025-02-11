@@ -35,17 +35,7 @@ import time
 configs = os.getenv('yysls_yunyouji')  
 configs = json.loads(configs) if configs else []  
 
-push_plus_token = "push_plus_token"  
-
-# 配置：多账号支持  
-configs = [  
-    {  
-        'token': '抓的token',  
-        'place': '清河填1，开封填2',  
-        'roleName': '（角色名称）',  
-        'nickname': '备注名称（应该与角色名一致）'  
-    }  
-]  
+push_plus_token = "push_plus_token" 
 
 # 请求头  
 headers = {  
