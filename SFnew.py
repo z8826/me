@@ -2174,9 +2174,9 @@ if __name__ == '__main__':
             if not run_result: continue
             
 def wxpusher_notify(content):
-    WXPUSHER_APP_TOKEN = ''
-    WXPUSHER_UIDS = ''  # 多个UID用英文逗号分隔
-    WXPUSHER_TOPIC_IDS = ''
+    WXPUSHER_APP_TOKEN = 'AT_z8eXjZWGb5MxGwEKVOAgCNmKNZoOFdAg'
+    WXPUSHER_UIDS = 'UID_PVnOsLnqoQuaYadzJa98hHMH1utK'  # 多个UID用英文逗号分隔
+    WXPUSHER_TOPIC_IDS = '28788'
 
     if not WXPUSHER_APP_TOKEN:
         print("未配置WXPUSHER_APP_TOKEN，不推送")
