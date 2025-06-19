@@ -9,7 +9,7 @@ function log(message) {
  
 // 检查环境变量
 function checkEnvVars() {
-    const requiredVars = ['COOKIES_自定义的环境变量名'];
+    const requiredVars = ['COOKIES_LB'];
     for (const varName of requiredVars) {
         if (!process.env[varName]) {
             log(`请设置环境变量 ${varName}`);
@@ -56,7 +56,7 @@ function xxts(title, content) {
  
 // ===================== 配置 =====================
 const CONFIG = {
-    COOKIE_NAME: "COOKIES_自定义的环境变量名", // 增加环境变量存放网站cookies，多账号用#分隔
+    COOKIE_NAME: "COOKIES_LB", // 增加环境变量存放网站cookies，多账号用#分隔
     SIGN_URL: "https://bbs.0lb.com/plugin.php?id=k_misign:sign",// 需要签到的网站
     USER_AGENT: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
     TIMEOUT: 15000,
