@@ -59,7 +59,7 @@ const CONFIG = {
     TIMEOUT: 15000,
     RETRY: 3,
     DELAY: 2000,
-    DEBUG_MODE: true // 生产环境建议关闭
+    DEBUG_MODE: false // 生产环境建议关闭
 };
 // ===================== 配置结束 =====================
 
