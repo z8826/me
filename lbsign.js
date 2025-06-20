@@ -9,13 +9,13 @@ function log(message) {
 
 // 检查环境变量
 function checkEnvVars() {
-    // const requiredVars = ['COOKIES_LB'];
-    // for (const varName of requiredVars) {
-    //     if (!process.env[varName]) {
-    //         log(`请设置环境变量 ${varName}`);
-    //         return false;
-    //     }
-    // }
+    const requiredVars = ['COOKIES_LB'];
+    for (const varName of requiredVars) {
+        if (!process.env[varName]) {
+            log(`请设置环境变量 ${varName}`);
+            return false;
+        }
+    }
     return true;
 }
 
@@ -164,7 +164,7 @@ async function processAccounts() {
     if (!checkEnvVars()) {
         return;
     }
-    const cookies = process.env[CONFIG.COOKIE_NAME]?.split('#').filter(c => c.trim()) || ['G8MN_2132_connect_is_bind=1; G8MN_2132_connect_uin=D2B0CCFC1D380E24658572FFBDF161D3; G8MN_2132_smile=2D1; G8MN_2132_saltkey=hUBjUSpS; G8MN_2132_lastvisit=1750324917; G8MN_2132_atarget=1; G8MN_2132_visitedfid=2; G8MN_2132_sid=QRBr6S; G8MN_2132_sendmail=1; G8MN_2132_con_request_uri=https%3A%2F%2Fbbs.0lb.com%2Fconnect.php%3Fmod%3Dlogin%26op%3Dcallback%26referer%3Dforum.php%253Fmod%253Dforumdisplay%2526fid%253D2%2526page%253D1; G8MN_2132_client_created=1750332194; G8MN_2132_client_token=D2B0CCFC1D380E24658572FFBDF161D3; G8MN_2132_ulastactivity=a0efldoyGXUi0Ydly7g2hrTGZj0ixzsVamTZGGyYTr2cbSk69CmQ; G8MN_2132_auth=bdfc0Fj46ewMyL7Kyd0J%2BqVUMQWq7Bdo2vmUPh75ZGkiTjALV%2FjlHikvpEu2gM%2BeAALougmBBBgK9bH5yZPvWjDjvg; G8MN_2132_connect_login=1; G8MN_2132_stats_qc_login=3; G8MN_2132_noticeTitle=1; G8MN_2132_st_t=23117%7C1750332197%7C6a36c6367c2670a55eb5680e0c5603e5; G8MN_2132_forum_lastvisit=D_2_1750332197; G8MN_2132_misigntime=1750332206; G8MN_2132_lastact=1750332413%09home.php%09spacecp; G8MN_2132_checkpm=1'];
+    const cookies = process.env[CONFIG.COOKIE_NAME]?.split('#').filter(c => c.trim()) || [];
     if (cookies.length === 0) {
         log(`请设置环境变量 ${CONFIG.COOKIE_NAME}`);
         return;
