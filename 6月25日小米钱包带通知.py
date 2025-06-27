@@ -309,12 +309,12 @@ if __name__ == "__main__":
     # 多账号配置区 ##################################
     ORIGINAL_COOKIES = [
         {   # 账号1
-            'passToken': 'xxxxxxx',
-            'userId': 'xxxxxxxx'
+            'passToken': 'V1:DXmurwq2/R1BHTELu6obCUzu98g2NVGsur2YJ0qbCtZmaT8C3KLCCR88N6gsQoVRFSD9R6ROijMHeStDsfaPH5NvkqPJsTEuaTS4owH9JmjhlZwRTuZ11BTpmCsSEd0Mt35ZsUKTSHPJN6q81B6ObRysINxELPwkNZX2Pd5ezB06TBC5c0sL1lwKK9XRLUNDiEAhUaTpWN593yJ3M+niPB4QoEc/r8JLJ9w6ld3j+ERVNJEr160gbLnH8AeJYfyTyTQXrp8wgVLV1XaPCgBpy6LnnbzjxvDEQdpzS3FmUJi2EmWsciwPMZkUCcAz+IqtSXoA0AYhnSXRHyGLtzwSHg==; cUserId=1h-9xMIbeXmn8EOok-2lIrIKyF0; cUserId=1h-9xMIbeXmn8EOok-2lIrIKyF0; userId=2826752671; passInfo=login-end; serviceToken=2.0&V1_passport&1:uwv9PMKUfkYx1cTrG3gxxw:jG0XUbwFDbg85Yg8AOEt/XI15kuOy5nOqSrfBvW76Tb9kVJd4UjSxNYILm0jfpTnBHPLbjZvxGWwC2f9NuffUST9RBBZ2yD2N1W62zcBxzxYGG5bNpUSy4XGvKK3IgdBeeh9LhaWRbljX9e5Tt836kPXjRIeSlet/rj0hqYNJDbWaSpBADhEvtwMghmPVVwV70mCvQFf4nnCvSINTPQ5soEkbFN50XmGoUKnhVkMp9Mva55M0atBX+RyJ9izvzbOr0dcjoYKn0R7W5d7eI7KYLSyRYgbQBj/l3LNa03NPFd3tMWrZGuaNxUwhP3IQpYyYcRCc4Oq/ATxr38afaz+igIynjQ6hiDridEz09By4oQ=&pdgB6ki/7N2C4QMSg9S4eg==',
+            'userId': '2826752671'
         },
         {   # 账号2
-            'passToken': 'xxxxxxxxxx',
-            'userId': 'xxxxxxxxx'
+            'passToken': 'V1:DXmurwq2/R1BHTELu6obCXCYrFNBsarDeCwe8JrVfIrATiXbROg8Tdcun/2BhOn4FIzQLQMHNthRBTp7rXjAIn6RaCdx170YxIy+DAqLW7BlOzzZcUd/+4Mt4WeDKfOZepHBUg6jyOfj4XXWZZUnzUvKUEwL4k4GTaL2o+Lq74kabFIecuhvaIbOEYfpFAC5mPGt+ibWSw+mR8Cctpw3Age9hviYvoakdioRLfUWvVnz5JNDlOu50+4e2tn3RDLMVgU1U/rQF5GHA3MyTCPbkxM3bLHBkFJQXRYGgZ9Z2oHwQEAhbhieELCb8OYRxBQBU467byk1wBc1d6rccaULXA==',
+            'userId': '2556590257'
         }
         # 可继续添加更多账号...
     ]
